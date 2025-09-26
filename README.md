@@ -84,8 +84,8 @@ This pipeline is part of the EhsanOmics initiative, focused on reproducible geno
 📫 Contact
 
 - Email: ejafarinia@gmail.com  
-- LinkedIn: ehsanjafarinia  
-- GitHub: ehsanomics
+- LinkedIn: https://www.linkedin.com/in/ehsanjafarinia
+- GitHub: https://github.com/EhsanOmics
 
 ---
 
