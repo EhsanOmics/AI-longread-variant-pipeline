@@ -1,4 +1,4 @@
-🧬 Long-Read Variant Detection Pipeline
+🧬 Long-Read Variant Detection AI-Pipeline
 
 A reproducible and scalable pipeline for detecting genomic variants from long-read sequencing data using Snakemake and machine learning filtering. This workflow integrates alignment, SNP/SV calling, annotation, and filtering — ideal for showcasing reproducibility, modular design, and scientific branding.
 
