@@ -1,0 +1,7 @@
+samples:
+  - sample1
+  - sample2
+reference: "data/reference/genome.fa"
+vep_cache: "data/reference/vep_cache/"
+ml_model: "models/trained_classifier.pkl"
+threads: 8
