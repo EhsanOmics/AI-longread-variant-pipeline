@@ -1,0 +1,2 @@
+# Snakemake runtime logs will be written here.
+# Useful for debugging and reproducibility tracking.
