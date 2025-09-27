@@ -1,5 +1,3 @@
-# Snakefile
-
 configfile: "config/config.yaml"
 
 rule all:
@@ -49,9 +47,26 @@ rule merge_variants:
     shell:
         "bcftools merge {input.snps} {input.svs} -o {output.merged} -O v"
 
+rule annotate_variants:
+    input:
+        vcf="results/variants/{sample}_merged.vcf"
+    output:
+        annotated="results/variants/{sample}_annotated.vcf"
+    params:
+        cache=config["vep_cache"],
+        ref=config["reference"]
+    shell:
+        """
+        vep --input_file {input.vcf} \
+            --output_file {output.annotated} \
+            --cache --dir_cache {params.cache} \
+            --fasta {params.ref} \
+            --vcf --force_overwrite
+        """
+
 rule ml_filtering:
     input:
-        vcf="results/variants/{sample}_merged.vcf",
+        vcf="results/variants/{sample}_annotated.vcf",
         model=config["ml_model"]
     output:
         filtered="results/variants/{sample}_filtered.vcf"
