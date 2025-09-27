@@ -1,0 +1,15 @@
+# dummy_model_generator.py
+from sklearn.ensemble import RandomForestClassifier
+import joblib
+import numpy as np
+
+# Create dummy training data
+X_dummy = np.random.rand(10, 5)  # 10 samples, 5 features
+y_dummy = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+
+# Train dummy model
+model = RandomForestClassifier()
+model.fit(X_dummy, y_dummy)
+
+# Save to models/trained_classifier.pkl
+joblib.dump(model, "models/trained_classifier.pkl")
