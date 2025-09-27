@@ -1,3 +1,5 @@
+# Snakefile
+
 configfile: "config/config.yaml"
 
 rule all:
@@ -36,7 +38,7 @@ rule call_svs:
     output:
         vcf="data/variants/{sample}_svs.vcf"
     shell:
-        "sniffles -i {input.bam} -v {output.vcf}"
+        "sniffles --input {input.bam} --vcf {output.vcf}"
 
 rule merge_variants:
     input:
@@ -45,21 +47,21 @@ rule merge_variants:
     output:
         merged="results/variants/{sample}_merged.vcf"
     shell:
-        "bcftools concat {input.snps} {input.svs} -o {output.merged} -O v"
+        "bcftools merge {input.snps} {input.svs} -o {output.merged} -O v"
 
-rule annotation:
+rule ml_filtering:
     input:
-        vcf="results/variants/{sample}_merged.vcf"
-    output:
-        annotated="results/variants/{sample}_annotated.vcf"
-    shell:
-        "vep -i {input.vcf} -o {output.annotated} --cache --dir_cache {config[vep_cache]}"
-
-rule filter_variants:
-    input:
-        vcf="results/variants/{sample}_annotated.vcf",
+        vcf="results/variants/{sample}_merged.vcf",
         model=config["ml_model"]
     output:
         filtered="results/variants/{sample}_filtered.vcf"
-    script:
-        "scripts/filter_variants.py"
+    params:
+        script="scripts/ml_filtering.py"
+    threads: config["threads"]
+    shell:
+        """
+        python {params.script} \
+            --vcf {input.vcf} \
+            --model {input.model} \
+            --out {output.filtered}
+        """
